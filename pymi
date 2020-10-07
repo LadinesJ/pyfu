@@ -1,0 +1,45 @@
+#!/bin/bash
+
+read -d '' usage << EOF
+
+pymi
+
+A small bash utility for running Python modules from CLI. Use standard Python
+packages and modules to access functions within modules.
+
+Usage: pymi [PACKAGE.MODULE.FUNCTION] ARGUMENTS
+
+Examples:
+	pymi mypackage.module_a.foo bar
+
+		Path is mypackage/module
+		Runs in Python as mypackage.module_a.foo('bar')
+
+Installation:
+	wget https://raw.githubusercontent.com/chrisdiana/pymi/master/pymi
+	chmod +x pymi
+	sudo mv ./pymi /usr/local/bin
+
+EOF
+
+if [[ -z "$1" ]]
+then
+    echo "$usage"
+    exit
+fi
+
+PYTHON_MODULE=$1
+PYTHON_FUNCTION=${PYTHON_MODULE##*\.}
+PYTHON_IMPORT=${PYTHON_MODULE%\.*}
+shift
+ARGS="$@"
+PYTHON_ARGS=${ARGS// /\', \'}
+
+if [[ -z "${PYTHON_ARGS}" ]]
+then
+	PYTHON_FUNC_CALL="${PYTHON_FUNCTION}()"
+else
+	PYTHON_FUNC_CALL="${PYTHON_FUNCTION}('${PYTHON_ARGS}')"
+fi
+PYTHON_CMD="from ${PYTHON_IMPORT} import ${PYTHON_FUNCTION}; ${PYTHON_FUNC_CALL}"
+python -c "$PYTHON_CMD"
