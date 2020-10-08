@@ -9,16 +9,39 @@ packages and modules to access functions within modules.
 
 Usage: pymi [PACKAGE.MODULE.FUNCTION] ARGUMENTS
 
-Examples:
-	pymi mypackage.module_a.foo bar
 
-		Path is mypackage/module
-		Runs in Python as mypackage.module_a.foo('bar')
+Example:
+	pymi mypackage.module_a.foo \"bar\" 2
+
+		Path is: mypackage/module
+		Runs in Python as: mypackage.module_a.foo('bar', 2)
+
 
 Installation:
 	wget https://raw.githubusercontent.com/chrisdiana/pymi/master/pymi
 	chmod +x pymi
 	sudo mv ./pymi /usr/local/bin
+
+
+Argument gotchas:
+
+	Strings:
+		Bash arguments don't play nice with quotes so make sure to escape
+		quotes for function agruments that are strings.
+
+		pymi pkg.module.func \"foo\" \"bar\"
+
+	Dictionaries or lists:
+		Remove any whitespace for dictionaries or lists as they will be
+		interpreted as additional arguments.
+
+		pymi pkg.module.func {'a':123,'b',890} ['foo','bar']
+
+	Tuples:
+		Tuples are a little more complex as you need to wrap the tuple in
+		single quotes and any strings inside do no need to be escaped.
+
+		pymi pkg.module.func '("foo",2)'
 
 EOF
 
@@ -33,13 +56,13 @@ PYTHON_FUNCTION=${PYTHON_MODULE##*\.}
 PYTHON_IMPORT=${PYTHON_MODULE%\.*}
 shift
 ARGS="$@"
-PYTHON_ARGS=${ARGS// /\', \'}
+PYTHON_ARGS=${ARGS// /, }
 
 if [[ -z "${PYTHON_ARGS}" ]]
 then
 	PYTHON_FUNC_CALL="${PYTHON_FUNCTION}()"
 else
-	PYTHON_FUNC_CALL="${PYTHON_FUNCTION}('${PYTHON_ARGS}')"
+	PYTHON_FUNC_CALL="${PYTHON_FUNCTION}(${PYTHON_ARGS})"
 fi
 PYTHON_CMD="from ${PYTHON_IMPORT} import ${PYTHON_FUNCTION}; ${PYTHON_FUNC_CALL}"
 python -c "$PYTHON_CMD"
