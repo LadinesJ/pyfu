@@ -4,8 +4,7 @@ read -d '' usage << EOF
 
 pyfu
 
-A small bash utility for running Python modules from CLI. Use standard Python
-packages and modules to access functions within modules.
+A small bash utility for running Python functions from CLI. 
 
 Usage: pyfu [PACKAGE.MODULE.FUNCTION] ARGUMENTS
 
