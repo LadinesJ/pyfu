@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# pymi install script
+# pyfu install script
 
-chmod +x pymi
-mv ./pymi /usr/local/bin
+chmod +x pyfu
+mv ./pyfu /usr/local/bin
