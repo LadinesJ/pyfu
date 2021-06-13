@@ -6,8 +6,7 @@ With pyfu you can run functions from CLI on standard Python packages and modules
 
 ### How to use
 
-Call pyfu followed by your Python package or module along with any
-function arguments to run the function without leaving the terminal.
+Call pyfu followed by your Python package or module along with any function arguments to run the function without leaving the terminal.
 
 ```
 $ pyfu mypackage.module_a.foo bar
@@ -16,8 +15,7 @@ $ pyfu mypackage.module_a.foo bar
 ### Installation:
 
 ```
-$ git clone git@github.com:chrisdiana/pyfu.git
-$ sudo sh install.sh
+/bin/bash -c "$(curl -fsSL https://git.io/JtV8e)"
 ```
 
 ### Example
@@ -29,7 +27,6 @@ mypackage_directory
   └─mypackage
      ├── __init__.py
      └── module_a.py
-
 ```
 
 And module_a.py contains:
@@ -47,7 +44,7 @@ $ pyfu mypackage.module_a.foo bar
 
 ### Why?
 
-Python has a great interface for running modules and scripts from command line but there isn’t any built in way to run individual functions. There are some great packages out there that can help solve this problem ([click](https://github.com/pallets/click), [invoke](https://github.com/pyinvoke/invoke)) but at the expense of adding complexity and additional dependencies.
+Python has a great interface for running modules and scripts from command line but there isn’t any built in way to run individual functions. There are some great packages out there that can help solve this problem ([click](https://github.com/pallets/click), [invoke](https://github.com/pyinvoke/invoke), argv, argparse) but at the expense of adding complexity or additional dependencies.
 
 Pyfu allows for functional access to Python files without polluting the code with extra decorators or options and without additional packages or libraries.
 
